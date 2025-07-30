@@ -39,11 +39,18 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos))
   }, [todos])
 
-  const [theme, setTheme] = useState("light")
+  const [theme, setTheme] = useState(() => {
+    // Check localStorage for theme
+    return localStorage.getItem("todoTheme") || "light"
+  })
 
   useEffect(() => {
-    document.querySelector('html').classList.remove("light", "dark")
-    document.querySelector('html').classList.add(theme)
+    // Apply theme to html tag
+    document.documentElement.classList.remove("light", "dark")
+    document.documentElement.classList.add(theme)
+
+    // Save theme to localStorage
+    localStorage.setItem("todoTheme", theme)
   }, [theme])
 
   const lightTheme = () => setTheme("light")
